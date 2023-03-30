@@ -50,10 +50,10 @@ void create_mandelbrot_image ()
         
         sf::Clock clock;
 
-        float y_coord[4] = {Y_START, Y_START + DY, Y_START + 2 * DY, Y_START + 3 * DY};
-        int y_pixel[4] = {0, 1, 2, 3};
+        float y_coord = Y_START;
+        int y_pixel = 0;
 
-        while (y_pixel[3] < WINDOW_HEIGHT)
+        while (y_pixel < WINDOW_HEIGHT)
         {
             float x_coord[4] = {X_START, X_START + DX, X_START + 2 * DX, X_START + 3 * DX};
             int x_pixel[4] = {0, 1, 2, 3};
@@ -67,11 +67,11 @@ void create_mandelbrot_image ()
                 for (int i = 0; i < 4; ++i)
                 {
                     prev_x[i] = x_coord[i];
-                    prev_y[i] = y_coord[i];
+                    prev_y[i] = y_coord;
                 }
 
                 float xx[4] = {};//prev_x * prev_x;
-                float yy[4] = {};//prev_y * prev_y;
+                float yy[4] = {};
                 float xy[4] = {};//prev_x * prev_y;
 
                 for (int i = 0; i < 4; ++i)
@@ -115,7 +115,7 @@ void create_mandelbrot_image ()
                     for (int i = 0; i < 4; ++i)
                     {
                         prev_x[i] = xx[i] - yy[i] + x_coord[i];
-                        prev_y[i] = xy[i] + xy[i] + y_coord[i];
+                        prev_y[i] = xy[i] + xy[i] + y_coord;
                     }
                     
                     for (int i = 0; i < 4; ++i)
@@ -135,7 +135,7 @@ void create_mandelbrot_image ()
                 
                 for (int i = 0; i < 4; ++i)
                 {
-                    idx[i] = 4*(y_pixel[i]*WINDOW_WIDTH + x_pixel[i]);
+                    idx[i] = 4*(y_pixel*WINDOW_WIDTH + x_pixel[i]);
                 }
                 
                 for (int i = 0; i < 4; ++i)
@@ -160,11 +160,8 @@ void create_mandelbrot_image ()
                 }
             }
             
-            for (int i = 0; i < 4; ++i)
-            {
-                y_coord[i] -= 4*DY;
-                y_pixel[i] += 4;
-            }
+            y_coord -= DY;
+            ++y_pixel;
         }
         sf::Time elapsed_time = clock.getElapsedTime ();
 
