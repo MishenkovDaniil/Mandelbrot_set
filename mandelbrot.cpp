@@ -63,12 +63,13 @@ void create_mandelbrot_image ()
                 float prev_x = x_coord;
                 float prev_y = y_coord;
 
-                float xx = prev_x * prev_x;
-                float yy = prev_y * prev_y;
-                float xy = prev_x * prev_y;
 
                 for (int i = 0; i < N_MAX; ++i)
                 {
+                    float xx = prev_x * prev_x;
+                    float yy = prev_y * prev_y;
+                    float xy = prev_x * prev_y;
+                    
                     if (xx + yy > RADIUS*RADIUS)
                     {
                         break;
@@ -77,9 +78,9 @@ void create_mandelbrot_image ()
                     prev_x = xx - yy + x_coord;
                     prev_y = xy + xy + y_coord;
 
-                    xx = prev_x * prev_x;
-                    yy = prev_y * prev_y;
-                    xy = prev_x * prev_y;
+                    //xx = prev_x * prev_x;
+                    //yy = prev_y * prev_y;
+                    //xy = prev_x * prev_y;
 
                     ++n;
                 }
@@ -95,7 +96,6 @@ void create_mandelbrot_image ()
                     // color.b = (13*n)%N_MAX; //11 13 7 
                 }
                 pixels[idx + 3] = 255;
-                // mandelbrot_img.setPixel (x_pixel, y_pixel, color);
             }
 
             y_coord -= DY;
