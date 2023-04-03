@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 #include <math.h>
 #include <SFML/Graphics.hpp>
 
@@ -44,7 +45,7 @@ void create_mandelbrot_image ()
         }
 
         sf::Uint8 pixels[4*WINDOW_HEIGHT*WINDOW_WIDTH] = {0};
-
+        assert (pixels);
         sf::Image mandelbrot_img;
         
         sf::Clock clock;
@@ -66,13 +67,8 @@ void create_mandelbrot_image ()
                 float yy = prev_y * prev_y;
                 float xy = prev_x * prev_y;
 
-                while (1)
+                for (int i = 0; i < N_MAX; ++i)
                 {
-                    if (n == N_MAX)
-                    {
-                        break;
-                    }
-
                     if (xx + yy > RADIUS*RADIUS)
                     {
                         break;
@@ -89,11 +85,7 @@ void create_mandelbrot_image ()
                 }
 
                 int idx = 4*(y_pixel*WINDOW_WIDTH + x_pixel);
-                if (n == N_MAX)
-                {
-                    ; // color.r = color.b = color.g = 0;
-                }
-                else
+                if (n != N_MAX)
                 {
                     pixels[idx] = (11*n)%N_MAX;
                     pixels[idx + 1] = (7*n)%N_MAX;
@@ -103,7 +95,6 @@ void create_mandelbrot_image ()
                     // color.b = (13*n)%N_MAX; //11 13 7 
                 }
                 pixels[idx + 3] = 255;
-            
                 // mandelbrot_img.setPixel (x_pixel, y_pixel, color);
             }
 
