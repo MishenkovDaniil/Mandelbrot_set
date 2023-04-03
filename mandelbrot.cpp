@@ -78,10 +78,6 @@ void create_mandelbrot_image ()
                     prev_x = xx - yy + x_coord;
                     prev_y = xy + xy + y_coord;
 
-                    //xx = prev_x * prev_x;
-                    //yy = prev_y * prev_y;
-                    //xy = prev_x * prev_y;
-
                     ++n;
                 }
 
