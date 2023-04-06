@@ -14,14 +14,12 @@ There were 4 version of Mandelbrot set construction:
 
 ## Work time 
 
-| VERSION           | FPS   | BOOST (%) |
-| ----------------- | ----- | --------- |
-| not_optimized     | 1.65  |    100    |
-| pseudo_optimized  |       |           |
-  (first)                                
-| pseudo_optimized  |       |           |
-  (second)                  
-| not_optimized     | 2.83  |    172    |
+| VERSION                   | FPS   | BOOST (%) |
+| ----------------- ------- | ----- | --------- |
+| not_optimized             | 1.65  |    100    |
+| pseudo_optimized (first)  |   -   |     -     |            
+| pseudo_optimized (second) |   -   |     -     |                
+| not_optimized             | 2.83  |    172    |
 
 Working fps was measured excluding rendering and calculated as 1/work_time (average work time in 100 work iteration)
 
