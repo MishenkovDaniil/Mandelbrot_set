@@ -15,7 +15,7 @@ There were 4 version of Mandelbrot set construction:
 ## Work time 
 
 | VERSION                   | FPS   | BOOST (%) |
-| ----------------- ------- | ----- | --------- |
+| ------------------------- | ----- | --------- |
 | not_optimized             | 1.65  |    100    |
 | pseudo_optimized (first)  |   -   |     -     |            
 | pseudo_optimized (second) |   -   |     -     |                
