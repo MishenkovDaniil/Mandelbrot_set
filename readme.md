@@ -16,10 +16,10 @@ There were 4 version of Mandelbrot set construction:
 
 | VERSION                   | FPS   | BOOST (%) |
 | ------------------------- | ----- | --------- |
-| not_optimized             | 1.65  |    100    |
-| pseudo_optimized (first)  |   -   |     -     |            
-| pseudo_optimized (second) |   -   |     -     |                
-| not_optimized             | 2.83  |    172    |
+| not_optimized             | 1.65  |     0     |
+| pseudo_optimized (first)  | 0.13  |    -92    |            
+| pseudo_optimized (second) | 0.12  |    -93    |                
+| not_optimized             | 2.83  |     72    |
 
 Working fps was measured excluding rendering and calculated as 1/work_time (average work time in 100 work iteration)
 All versions work with -o3 and -mavx2 flags and use SSE instructions
