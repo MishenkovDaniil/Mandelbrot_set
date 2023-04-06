@@ -22,4 +22,9 @@ There were 4 version of Mandelbrot set construction:
 | not_optimized             | 2.83  |    172    |
 
 Working fps was measured excluding rendering and calculated as 1/work_time (average work time in 100 work iteration)
+All versions work with -o3 and -mavx2 flags and use SSE instructions
 
+## Results
+- it is not always possible to boost your programm by 'helping' inbuilt optimizer by building different auxilary constructions in your code
+- using intrinsics may boost your programm and do it better than inbuilt optimizer 
+- overheads does not allow to boost it absolutely (for example, if you treat 4 pixels at the same time (as in this programm) you will never boost it in 4 times)
