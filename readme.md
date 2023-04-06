@@ -1,6 +1,6 @@
 # Mandelbrot Set Optimizing
 
-*** Programm optimizing calculations using intinsics in Mandelbrot set construction (as an example of their usage); ***
+***Programm optimizing calculations using intinsics in Mandelbrot set construction (as an example of their usage);***
 
 ![](/mandelbrot_set.png?raw=true "Optional Title")
 
