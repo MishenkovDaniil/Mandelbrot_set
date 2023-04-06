@@ -6,11 +6,11 @@
 
 ## Versions
 There were 4 version of Mandelbrot set construction: 
-- not optimized version ([not_optimized_version_cpp_link](/mandelbrot.cpp), [executable file](/not-optimized)) where calculation is used without using any optimizing
-- first pseudo optimized version  ([pseudo_optimized_cpp_link](/mandelbrot_pseudo_optmzd_1.cpp), [executable file](/pseudo-optimized-1)) where it is tried to parallel calculation processes using for-cycles to work with 4 pixels at the same time
-- second pseudo optimized version ([pseudo_optimized_cpp_link](/mandelbrot_pseudo_optmzd_2.cpp), [executable file](/pseudo-optimized-2)) where first version calculation split into functions to help the proccessor parallel them
+- not optimized version ([not_optimized_version_link](/mandelbrot.cpp)) where calculation is used without using any optimizing
+- first pseudo optimized version  ([pseudo_optimized_link](/mandelbrot_pseudo_optmzd_1.cpp)) where it is tried to parallel calculation processes using for-cycles to work with 4 pixels at the same time
+- second pseudo optimized version ([pseudo_optimized_link](/mandelbrot_pseudo_optmzd_2.cpp)) where first version calculation split into functions to help the proccessor parallel them
 - pseudo optimizing functions have such name because they do no paralleling at reality
-- optimized version ([optimized_version_cpp_link](/mandelbrot_optmzd_3.cpp), [executable file](/optimized)) with usage of intrinsics function at almost all calculations
+- optimized version ([optimized_version_link](/mandelbrot_optmzd_3.cpp)) with usage of intrinsics function at almost all calculations
 
 ## Work time 
 
