@@ -5,6 +5,13 @@
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
+// #define TIME_CHECK
+#ifdef TIME_CHECK
+static const size_t CALC_NUM = 100;
+#else 
+static const size_t CALC_NUM = 1;
+#endif 
+
 static const float X_START = -1.5;
 static const float X_END   =  0.5;
 static const float Y_START =  1.0;
@@ -34,7 +41,7 @@ static const char *fps_font_file = "fps_font.ttf";
 
 void create_mandelbrot (void);
 void load_mandelbrot_pixels (sf::Uint8 *pixels);
-void load_fps_text (sf::Text *fps_text, sf::Font *font, const char *fps_file, sf::Time elapsed_time);
+void load_fps_text (sf::Text *fps_text, sf::Font *font, const char *fps_file, sf::Time elapsed_time, const size_t calc_num);
 
 int main ()
 {
@@ -55,7 +62,8 @@ void create_mandelbrot ()
         sf::Image mandelbrot_img;
         sf::Texture mandelbrot_texture;
         sf::Sprite mandelbrot_sprite;
-        
+        sf::Time elapsed_time;
+
         while (window.pollEvent (event))
         {
             if (event.type == sf::Event::Closed)
@@ -67,11 +75,14 @@ void create_mandelbrot ()
         sf::Uint8 pixels[4*WINDOW_HEIGHT*WINDOW_WIDTH] = {0};
         assert (pixels);
         
-        sf::Clock clock;
-        load_mandelbrot_pixels (pixels);
-        sf::Time elapsed_time = clock.getElapsedTime ();
+        for (int cur_iter = 0; cur_iter < CALC_NUM; ++cur_iter)
+        {
+            sf::Clock clock;
+            load_mandelbrot_pixels (pixels);
+            elapsed_time += clock.getElapsedTime ();
+        }
 
-        load_fps_text (&fps_text, &fps_font, fps_font_file, elapsed_time);
+        load_fps_text (&fps_text, &fps_font, fps_font_file, elapsed_time, CALC_NUM);
 
         mandelbrot_img.create (WINDOW_WIDTH, WINDOW_HEIGHT, (const sf::Uint8 *) pixels);
         mandelbrot_texture.loadFromImage (mandelbrot_img);
@@ -124,7 +135,7 @@ void load_mandelbrot_pixels (sf::Uint8 *pixels)
 
                 n = _mm_sub_epi32 (n, (_mm_castps_si128) (cmp)); 
             }
-
+#ifndef TIME_CHECK
             int idx[4] = {};
             
             for (int i = 0; i < 4; ++i)
@@ -144,7 +155,7 @@ void load_mandelbrot_pixels (sf::Uint8 *pixels)
                 }
                 pixels[idx[i] + 3] = 255;
             }
-
+#endif
             x_pixel += 4;
             x_coord = _mm_add_ps (x_coord, dcoord);
         }
@@ -154,13 +165,13 @@ void load_mandelbrot_pixels (sf::Uint8 *pixels)
     }
 }
 
-void load_fps_text (sf::Text *fps_text, sf::Font *font, const char *fps_file, sf::Time elapsed_time)
+void load_fps_text (sf::Text *fps_text, sf::Font *font, const char *fps_file, sf::Time elapsed_time, const size_t calc_num)
 {
     font->loadFromFile (fps_file);
     
     char string[MAX_STR_LEN] = "";
 
-    sprintf (string, "FPS: %lf", (double) 1 / (double)elapsed_time.asSeconds ());
+    sprintf (string, "FPS: %lf", (double) 1 / ((double)elapsed_time.asSeconds () / calc_num));
     
     fps_text->setString (string);
     fps_text->setFont (*font);
