@@ -1,30 +1,36 @@
-# Mandelbrot Set Optimizing
+# Оптимизация вычислений на примере вычисления цвета пикселей множества Мандельброта
 
-***Programm optimizing calculations using intinsics in Mandelbrot set construction (as an example of their usage);***
+***Целью данной работы является ускорение вычислений, проводимых с каждым пикселем, за счет параллелизации работы процессора с ними и анализ полученных коэффициентов ускорения.***
+![](/mandelbrot_set.png?raw=true "Пример выводимого изображения")
 
-![](/mandelbrot_set.png?raw=true "Optional Title")
 
-## Versions
-There were 4 version of Mandelbrot set construction: 
-- not optimized version ([not_optimized_version_link](/mandelbrot.cpp)) where calculation is used without using any optimizing
-- first pseudo optimized version  ([pseudo_optimized_link](/mandelbrot_pseudo_optmzd_1.cpp)) where it is tried to parallel calculation processes using for-cycles to work with 4 pixels at the same time
-- second pseudo optimized version ([pseudo_optimized_link](/mandelbrot_pseudo_optmzd_2.cpp)) where first version calculation split into functions to help the proccessor parallel them
-- pseudo optimizing functions have such name because they do no paralleling at reality
-- optimized version ([optimized_version_link](/mandelbrot_optmzd_3.cpp)) with usage of intrinsics function at almost all calculations
+## Версии программ
+Всего было написано 4 программы, осущетсвляющие преобразования пикселей как в Мандельбротовом множестве.
+1. Начальная, неоптимизированная версия([not_optimized_version_link](/mandelbrot.cpp)), в которой алгоритм отрисовки не оптимизирован и каждая его итерация обрабатывает 1 пикселью
+2. Псевдо-оптимизированные версии:
 
-## Work time 
+   2.1. В первой такой версии ([pseudo_optimized_link](/mandelbrot_pseudo_optmzd_1.cpp)) мы производим попытку распараллеливания за счет использования for-циклов для работы с 4 пикселями вместо одного на каждой итерации.
 
-| VERSION                   | FPS   | BOOST (%) |
-| ------------------------- | ----- | --------- |
-| not_optimized             | 1.65  |    +0     |
-| pseudo_optimized (first)  | 0.13  |    -92    |            
-| pseudo_optimized (second) | 0.12  |    -93    |                
-| not_optimized             | 2.83  |    +72    |
+   2.2. Во второй версии ([pseudo_optimized_link](/mandelbrot_pseudo_optmzd_2.cpp)) также используются for-циклы, но все они помещены в встраиваемые (inline) функции, для того чтобы оптимизатору было проще определить место, в котором есть возможности для распараллеливания вычислений.
 
-Working fps was measured excluding rendering and calculated as 1/work_time (average work time in 100 work iteration)
-All versions work with -o3 and -mavx2 flags and use SSE instructions
+3. Оптимизированная версия ([optimized_version_link](/mandelbrot_optmzd_3.cpp)), в которой распараллеливание команд осуществляется с помощью прямого указания процессору на это путем использования интринсик-функции. В нашем случае использовались функции для работы со 128-битными SSE регистрами, обрабатывая тем самым по 4 пикселя(размером в 4 байта) одновременно.
 
-## Results
-- it is not always possible to boost your programm by 'helping' inbuilt optimizer by building different auxilary constructions in your code
-- using intrinsics may boost your programm and do it better than inbuilt optimizer 
-- overheads does not allow to boost it absolutely (for example, if you treat 4 pixels at the same time (as in this programm) you will never boost it in 4 times)
+Замечание: Псевдо-оптимизированные версии получили такое название, так как гипотеза распараллеливания встроенным оптимизатором за счет наших преобразований кода не подтвердилась.
+
+
+## Время работы
+
+| Версия                    | ФПС   | Коэффициент ускорения (%) |
+| ------------------------- | ----- | ------------------------- |
+| not_optimized             | 1.65  |           0               |
+| pseudo_optimized (first)  | 0.13  |    0.08                   |       
+| pseudo_optimized (second) | 0.12  |    0.07                   |  
+| not_optimized             | 2.83  |    1.72                   |
+
+Фпс во время работы программы измерялся как обратная величина ко времени работы программы в секундах (под временем работы программы подразумевается время, потраченное на вычисления, с которыми проводилась оптимизация).
+
+## Анализ результатов
+- распараллеливание (с последующим ускорением программы) за счет использования циклов и встраимаевых функции не всегда возможно, а в нашем случае оно даже приводит к заметному торможению программы.
+- использование функций-интринсиков действительно помогает ускорить программу, в которой возможна обработка нескольких одинаковых по размеру независимых обьектов.
+- накладные расходы не позволяют ускорить программу с помощью интринсиков абсолютно (т.е. обрабатывая пиксели по 4 в SSE регистрах невозможно получить ускорение вычислений, проводимых с их помощью, в 4 раза).
+
